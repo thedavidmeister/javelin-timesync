@@ -34,3 +34,4 @@
            url
            {:handler handler
             :error-handler error-handler})))])))
+(def offset-cell (memoize -offset-cell))
