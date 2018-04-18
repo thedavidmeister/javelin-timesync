@@ -184,3 +184,10 @@ milliseconds and then retry that data point.
 
 This can be overriden as `:error-handler` under `:ajax` as per
 https://github.com/JulianBirch/cljs-ajax#getpostput
+
+### But I don't use Javelin!
+
+No problem.
+
+Javelin cells work exactly like native clojure `atom`. Just deref the offset
+like you would normally access an atom.
