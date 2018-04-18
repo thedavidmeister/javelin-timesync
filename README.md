@@ -13,7 +13,20 @@ ClojureScript by extension, to respond to this.
 (S)NTP works over UDP, whereas browsers typically only offer TCP, making it
 impossible to connect directly to real NTP servers (e.g. `time.google.com`).
 
-This article sums up the problems of (S)NTP over TCP well:
+To be useful in the browser, we consider an algorithm reasonable only if the
+inaccuracy of the offset quickly converges to the limits of human perception.
+
+This means we need to reliably reach sub 100ms inaccuracies within 5-10 seconds.
+
+https://stackoverflow.com/questions/536300/what-is-the-shortest-perceivable-application-response-delay
+
+Even if we could connect to NTP servers over TCP, the full NTP algorithm is
+complex and converges far too slow for our needs. The SNTP algorithm is much
+faster but is perceptibly inaccurate, even worse, it assumes constant latency
+between the client and server, which is broken by TCP retransmissions.
+
+This whitepaper explains well why (S)NTP calculations cannot be applied to TCP
+without modification and expect a reasonable result:
 
 http://www.mine-control.com/zack/timesync/timesync.html
 
@@ -25,13 +38,48 @@ http://www.mine-control.com/zack/timesync/timesync.html
 > paper proposes an extremely simple alternative ... suitable for many network
 > games and can be used on top of a stream-oriented protocol such as TCP.
 
+> The SNTP technique is not viable when accuracy is critical and latency is
+> variable as is the case on the world-wide Internet. Algorithms to measure,
+> quantify, and correct for the error induced by variable latency were
+> introduced by David Mills at University of Delaware. Mills presents an
+> extremely comprehensive treatment of the subject and proposes a solution which
+> became the Network Time Protocol (NTP). (specified in RFC-1305) [MILLS92] This
+> protocol is used extensively throughout the Internet. Unfortunately, NTP is
+> very complicated and, more importantly, slow to converge on the accurate time
+> delta. This makes NTP less than ideal for network game play where the player
+> expects a game to start immediately and is unwilling to allow for
+> synchronization time.
+
+> The reason that SNTP and NTP use datagram protocols is simple. Connection
+> latency is measured, and therefore extracted from the time request, by
+> assuming that the transmit and receive times are symmetric and dividing the
+> measured latency by two. In a stream-based protocol such as TCP, the
+> underlying protocol may retransmit a lost or unordered packet causing
+> anomalous and asymmetric latency. These protocols have no API for informing
+> high-level code that the retransmission occurred. Therefore, the only truly
+> safe and accurate way to conduct the latency measurement is to use a datagram
+> protocol as just mentioned to avoid this problem. (Note however, that still
+> can not assure a symmetric connection. For example, satellite based ISPs use
+> modem up-links and high-bandwidth, variable latency satellite down-links).
+
+This paper also proposes a modified SNTP algorithm designed to compensate for
+intermittent random delays caused by TCP.
+
 The timesync algorithm is also implemented in JS here:
 
 https://github.com/enmasseio/timesync
 
 This lib implements the algorithm in CLJS, pushing the ongoing offset refinement
-into a Javelin cell. This avoids the need for a bespoke callback/event system to
-broadcast the any offset changes to the rest of the application.
+into a Javelin cell.
+
+This has several benefits:
+
+- The CLJS implementation is far simpler than the JS version
+- The use of Javelin avoids the need for a bespoke callback/event system
+- No need for ES5/ES6 shims
+- Can tweak the algorithm for faster convergence (see below)
+- Supports arbitrary AJAX calls to 3rd party servers, GET/POST etc.
+- Supports a parse function to normalise the response from 3rd party servers
 
 ## Usage
 
