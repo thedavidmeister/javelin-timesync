@@ -85,7 +85,7 @@ This has several benefits:
 
 ### Offset cell
 
-Call `javelin-timesync/offset-cell` with a URL to poll and the following
+Call `javelin-timesync.core/offset-cell` with a URL to poll and the following
 optional parameters.
 
 - `:parse` a function that receives the response and returns a millisecond
@@ -97,13 +97,13 @@ optional parameters.
 Example: Use [Ably's](https://www.ably.io/) free distributed timestamp servers.
 
 ```clojure
-(javelin-timesync/offset-cell
+(javelin-timesync.core/offset-cell
   "https://rest.ably.io/time?v=1.0"
   {:parse (fn [[v]] v)} ; Ably returns an array, so destructure the result
 )
 ```
 
-`javelin-timesync/offset-cell` is memoized so calling it with the same arguments
+`javelin-timesync.core/offset-cell` is memoized so calling it with the same arguments
 returns the same cell. This avoids unneccessary round trips and reduces the need
 for co-ordination in your application logic.
 
@@ -114,10 +114,10 @@ for the current time.
 
 ```clojure
 ; early in application logic...
-(javelin-timesync/offset-cell ...)
+(javelin-timesync.core/offset-cell ...)
 
 ; later...
-(+ (.getTime (js/Date.)) @(javelin-timesync/offset-cell ...)) ; synced timestamp
+(+ (.getTime (js/Date.)) @(javelin-timesync.core/offset-cell ...)) ; synced timestamp
 ```
 
 Note how the memoize can be used to avoid the need for tracking `defonce` or
