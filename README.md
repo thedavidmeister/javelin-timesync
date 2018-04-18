@@ -26,7 +26,7 @@ faster but is perceptibly inaccurate, even worse, it assumes constant latency
 between the client and server, which is broken by TCP retransmissions.
 
 This whitepaper explains well why (S)NTP calculations cannot be applied to TCP
-without modification and expect a reasonable result:
+without modification:
 
 http://www.mine-control.com/zack/timesync/timesync.html
 
