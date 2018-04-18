@@ -3,15 +3,24 @@
   ajax.core
   [javelin.core :as j]))
 
-; This is only a poor-man's NTP, based on our own server time and some JS.
-; http://stackoverflow.com/questions/1638337/the-best-way-to-synchronize-client-side-javascript-clock-with-server-date
-; #?(:cljs
-;    (defn server-now
-;     []
-;     (-> (time.core/now-millis)
-;      (+ @ntp.state/offset)
-;      ; Avoid fractions of ms produced by the ntp-offset calculation.
-;      Math/floor)))
+(defn -data-cell->offset-cell
+ [data-cell]
+ (let [latencies (j/formula-of [data] (map javelin-timesync.math/data-points->latencies data))
+       median-latency (j/formula-of [latencies] (javelin-timesync.math/median latencies))
+       std-dev (j/formula-of [latencies] (javelin-timesync.math/std-dev latencies))
+       avg-latency (j/formula-of
+                    [latencies median-latency std-dev]
+                    (javelin-timesync.math/mean
+                     (or
+                      (seq
+                       (remove
+                        (fn [latency]
+                         (<
+                          (Math/ceil std-dev)
+                          (Math/abs (- latency median-latency))))
+                        latencies))
+                      [median-latency])))]
+  (j/formula-of [avg-latency] (javelin-timesync.math/latency->offset avg-latency))))
 
 (defn -offset-cell
  ([url] (-offset-cell url {}))
@@ -33,5 +42,6 @@
           (ajax.core/GET
            url
            {:handler handler
-            :error-handler error-handler})))])))
+            :error-handler error-handler})))]
+   (-data-cell->offset-cell data))))
 (def offset-cell (memoize -offset-cell))
