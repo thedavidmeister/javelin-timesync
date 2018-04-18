@@ -9,16 +9,18 @@
  '[; scaffolding...
    [org.clojure/clojure "1.10.0-alpha4"]
    [org.clojure/clojurescript "1.10.238"]
-   [hoplon "7.3.0-SNAPSHOT"]
+   [hoplon/javelin "3.9.0"]
    [pandeiro/boot-http "0.8.3"]
    [adzerk/boot-reload "0.5.1"]
    [adzerk/boot-cljs "2.1.4"]
    [tailrecursion/boot-jetty  "0.1.3"]
    [thedavidmeister/boot-github-pages "0.1.0-SNAPSHOT"]
    [crisptrutski/boot-cljs-test "0.3.5-SNAPSHOT"]
-   [adzerk/bootlaces "0.1.13"]])
+   [adzerk/bootlaces "0.1.13"]
+   [com.taoensso/timbre "4.10.0"]
 
    ; everything else...
+   [cljs-ajax "0.7.3"]])
 
 (task-options!
  pom {:project project

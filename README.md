@@ -99,13 +99,14 @@ Example: Use [Ably's](https://www.ably.io/) free distributed timestamp servers.
 ```clojure
 (javelin-timesync.core/offset-cell
   "https://rest.ably.io/time?v=1.0"
-  {:parse (fn [[v]] v)} ; Ably returns an array, so destructure the result
-)
+  :parse (fn [[v]] v)) ; Ably returns an array, so destructure the result
 ```
 
 `javelin-timesync.core/offset-cell` is memoized so calling it with the same arguments
 returns the same cell. This avoids unneccessary round trips and reduces the need
 for co-ordination in your application logic.
+
+If you want the uncached version of `offset-cell` then call `-offset-cell`.
 
 ### Synced time
 
