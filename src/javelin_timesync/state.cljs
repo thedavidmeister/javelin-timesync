@@ -1,4 +1,4 @@
-(ns cljs-ntp.state
+(ns javelin-timesync.state
  (:require
   ntp.math
   connectivity.sente

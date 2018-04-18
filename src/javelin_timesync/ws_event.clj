@@ -1,4 +1,4 @@
-(ns cljs-ntp.ws-event
+(ns javelin-timesync.ws-event
  (:require
   [sente.wire :refer [-event-msg-handler]]
   ntp.core

@@ -1,4 +1,4 @@
-(ns cljs-ntp.core
+(ns javelin-timesync.core
  (:require
   time.core
   #?(:cljs ntp.state)

@@ -1,4 +1,4 @@
-(ns cljs-ntp.math
+(ns javelin-timesync.math
  (:require
   [clojure.test :refer [deftest is]]))
 
