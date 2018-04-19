@@ -3,6 +3,24 @@
   javelin-timesync.math
   [cljs.test :refer-macros [deftest is]]))
 
+(deftest ??data-point->latency
+ (doseq [[i o] [[{:timesync/start 1
+                  :timesync/server 2
+                  :timesync/end 3}
+                 -1]
+
+                [(let [x (rand-int 100)]
+                  {:timesync/start x
+                   :timesync/server x
+                   :timesync/end x})
+                 -0]
+
+                [{:timesync/start 100
+                  :timesync/server 1
+                  :timesync/end 101}
+                 -0.5]]]
+  (is (== o (javelin-timesync.math/data-point->latency i)))))
+
 (deftest ??mean
  (doseq [[i o] [[[] 0]
                 [[0] 0]
@@ -39,7 +57,7 @@
                 [[1 2 -2 4 -3] (/ (Math/sqrt 166) 5)]
                 [[100 500 -1000 4] (Math/sqrt 305203)]
                 [[0.1 0.5 0 2] 0.8015609770940699]]]
-  (is (== o (javelin-timesync.math/std-dev (shuffle i))))))
+  (is (= o (javelin-timesync.math/std-dev (shuffle i))))))
 
 (deftest ??round-trip
  (let [t0 (rand-int 10000)

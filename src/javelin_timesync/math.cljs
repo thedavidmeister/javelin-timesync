@@ -1,13 +1,20 @@
 (ns javelin-timesync.math
  (:require
-  [clojure.test :refer [deftest is]]))
+  javelin-timesync.spec
+  [clojure.spec.alpha :as spec]))
 
 ; https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm
 
-(defn data-points->latencies
- [xs]
- {:pre [(sequential? xs)]}
- xs)
+(defn data-point->latency
+ [data-point]
+ {:pre [(spec/valid? :timesync/data-point data-point)]}
+ ; Upon receipt by client, client subtracts current time from sent time and
+ ; divides by two to compute latency.
+ (*
+  0.5
+  (-
+   (:timesync/start data-point)
+   (:timesync/end data-point))))
 
 (defn latency->offset
  [x]
