@@ -1,5 +1,5 @@
 (def project 'thedavidmeister/javelin-timesync)
-(def version "0.0.2")
+(def version "0.0.3")
 (def description "Simple timesync algorithm for ClojureScript that is superior to SNTP over TCP")
 (def github-url "https://github.com/thedavidmeister/javelin-timesync")
 
