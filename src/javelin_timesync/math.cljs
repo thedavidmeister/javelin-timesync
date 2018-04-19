@@ -36,7 +36,7 @@
 
 (defn latency->offset
  [x]
- {:post [(int? %)]}
+ {:post [(spec/valid? :timesync/offset %)]}
  ; there's no point in an offset with higher precision than the clock itself, in
  ; fact that is just asking for bugs, so we round to the nearest int.
  (Math/round x))

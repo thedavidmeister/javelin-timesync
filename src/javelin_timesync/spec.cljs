@@ -3,6 +3,7 @@
   [clojure.spec.alpha :as spec]))
 
 (spec/def :timesync/stamp int?)
+(spec/def :timesync/offset :timesync/stamp)
 (spec/def :timesync/start :timesync/stamp)
 (spec/def :timesync/server :timesync/stamp)
 (spec/def :timesync/end :timesync/stamp)

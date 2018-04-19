@@ -65,11 +65,12 @@
 (defn data-points->offset
  [data-points]
  {:pre [(spec/valid? :timesync/data-points data-points)]
-  :post [(spec/valid? :timesync/clock-delta %)]}
+  :post [(spec/valid? :timesync/offset %)]}
  (-> data-points
   data-points->processed-points
   processed-points->filtered-points
-  processed-points->mean-clock-delta))
+  processed-points->mean-clock-delta
+  javelin-timesync.math/latency->offset))
 
 (defn -offset-cell
  [& {:keys [parse
