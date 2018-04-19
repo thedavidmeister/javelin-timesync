@@ -4,6 +4,16 @@
 
 ; https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm
 
+(defn data-points->latencies
+ [xs]
+ {:pre [(sequential? xs)]}
+ xs)
+
+(defn latency->offset
+ [x]
+ {:pre [(int? x)]}
+ x)
+
 (defn mean
  [xs]
  {:pre [(sequential? xs)]}
