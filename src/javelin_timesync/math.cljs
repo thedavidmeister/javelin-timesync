@@ -26,6 +26,17 @@
     (mean (map #(nth sorted %) [pos (inc pos)]))))
   0))
 
+(defn std-dev
+ [xs]
+ {:pre [(sequential? xs)]}
+ (if (seq xs)
+  (let [x̄ (mean xs)
+        diffs (map (fn [x] (- x x̄)) xs)
+        squared (map (fn [x] (* x x)) diffs)
+        variance (mean squared)]
+   (Math/sqrt variance))
+  0))
+
 (defn round-trip
  [t0 t1 t2 t3]
  (-
