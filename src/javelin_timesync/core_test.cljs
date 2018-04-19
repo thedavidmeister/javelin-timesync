@@ -68,5 +68,26 @@
                   [l1 l2]]
 
                  [[l1 l2 l5]
-                  [l1 l2]]]]
+                  [l1 l2]]
+
+                 [[l5]
+                  [l5]]
+
+                 [[l5 l2]
+                  [l5]]]]
    (is (= o (javelin-timesync.core/processed-points->filtered-points i))))))
+
+(deftest ??processed-points->mean-clock-delta
+ (let [clock-point (fn [c]
+                    {:timesync/start (rand-int 100)
+                     :timesync/server (rand-int 100)
+                     :timesync/end (rand-int 100)
+                     :timesync/latency (rand-int 100)
+                     :timesync/clock-delta c})
+       [c1 c2 c3] (map clock-point [1 2 3])]
+  (doseq [[i o] [[[] 0]
+                 [[c1] 1]
+                 [[c1 c1] 1]
+                 [[c1 c2] 1.5]
+                 [[c1 c2 c3] 2]]]
+   (is (= o (javelin-timesync.core/processed-points->mean-clock-delta i))))))
