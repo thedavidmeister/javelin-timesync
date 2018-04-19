@@ -4,6 +4,18 @@ Simple time syncing algorithm implementation in Javelin in ClojureScript.
 
 https://github.com/hoplon/javelin
 
+## Installation
+
+## Github pages
+
+Checkout a basic example that hits Ably (see below) to calculate an offset:
+
+https://thedavidmeister.github.io/javelin-timesync/
+
+Layout generated with Hoplon elem lib:
+
+https://github.com/thedavidmeister/hoplon-elem-lib
+
 ## Motivation
 
 Getting reliable times in the browser can be a real pain. Users can set their

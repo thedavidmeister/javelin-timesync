@@ -73,14 +73,14 @@
    :dir #{"gh-pages"})
   (github-pages)))
 
-; (deftask deploy-clojars
-;  []
-;  (comp
-;   (build-jar)
-;   (push-release)))
-;
-; (deftask deploy
-;  []
-;  (comp
-;   (deploy-gh-pages)
-;   (deploy-clojars)))
+(deftask deploy-clojars
+ []
+ (comp
+  (build-jar)
+  (push-release)))
+
+(deftask deploy
+ []
+ (comp
+  (deploy-gh-pages)
+  (deploy-clojars)))
