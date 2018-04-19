@@ -6,6 +6,10 @@ https://github.com/hoplon/javelin
 
 ## Installation
 
+[![Clojars Project](https://img.shields.io/clojars/v/thedavidmeister/javelin-timesync.svg)](https://clojars.org/thedavidmeister/javelin-timesync)
+
+[![CircleCI](https://circleci.com/gh/thedavidmeister/javelin-timesync.svg?style=svg)](https://circleci.com/gh/thedavidmeister/javelin-timesync)
+
 ## Github pages
 
 Checkout a basic example that hits Ably (see below) to calculate an offset:
