@@ -68,8 +68,8 @@
  [xs]
  {:pre [(sequential? xs)]}
  (if (seq xs)
-  (let [x̄ (mean xs)
-        diffs (map (fn [x] (- x x̄)) xs)
+  (let [m (mean xs)
+        diffs (map (fn [x] (- x m)) xs)
         squared (map (fn [x] (* x x)) diffs)
         variance (mean squared)]
    (Math/sqrt variance))
