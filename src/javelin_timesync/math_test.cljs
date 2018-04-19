@@ -21,6 +21,18 @@
                  -0.5]]]
   (is (== o (javelin-timesync.math/data-point->latency i)))))
 
+(deftest ??data-point->clock-delta
+ (doseq [[i o] [[{:timesync/start 1
+                  :timesync/server 2
+                  :timesync/end 3}
+                 0]
+
+                [{:timesync/start 100
+                  :timesync/server 1
+                  :timesync/end 110}
+                 -104]]]
+  (is (== o (javelin-timesync.math/data-point->clock-delta i)))))
+
 (deftest ??mean
  (doseq [[i o] [[[] 0]
                 [[0] 0]
