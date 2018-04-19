@@ -114,3 +114,7 @@
    (loop!))
   return-cell))
 (def offset-cell (memoize -offset-cell))
+
+(defn server-time
+ [c]
+ (+ (javelin-timesync.time/now-millis) @c))
