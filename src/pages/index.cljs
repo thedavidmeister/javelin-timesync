@@ -19,7 +19,7 @@
    "Offset cell generator"
    #'javelin-timesync.core/offset-cell
    [["Ably offset cell"
-     :url "https://rest.ably.io/time?v=1.0"
+     "https://rest.ably.io/time?v=1.0"
      :parse first
      :interval 2000
      :data-points 10]])))

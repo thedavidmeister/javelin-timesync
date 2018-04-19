@@ -73,16 +73,11 @@
   javelin-timesync.math/latency->offset))
 
 (defn -offset-cell
- [& {:keys [parse
-            handler
-            error-handler
-            interval
-            data-points
-            url
-            fetch
-            error-handler]}]
- {:pre [(or url fetch)
-        (not (and url fetch))]}
+ [url & {:keys [parse
+                error-handler
+                interval
+                data-points]}]
+ {:pre [(string? url)]}
  (let [data (j/cell [])
 
        parse (or parse javelin-timesync.data/parse)
@@ -90,20 +85,20 @@
        data-points (or data-points javelin-timesync.data/data-points)
 
        handler
-       (or
-        handler
-        (fn [r start end]
-         (swap! data conj {:timesync/start start :timesync/server (parse r) :timesync/end end})))
+       (fn [r start end]
+        (swap! data conj
+         {:timesync/start start
+          :timesync/server (parse r)
+          :timesync/end end}))
+
        error-handler (or error-handler (fn [e] (taoensso.timbre/warn e)))
        fetch
-       (or
-        fetch
-        (fn [handler]
-         (let [start (javelin-timesync.time/now-millis)]
-          (ajax.core/GET
-           url
-           {:handler #(handler % start (javelin-timesync.time/now-millis))
-            :error-handler error-handler}))))
+       (fn [handler]
+        (let [start (javelin-timesync.time/now-millis)]
+         (ajax.core/GET
+          url
+          {:handler #(handler % start (javelin-timesync.time/now-millis))
+           :error-handler error-handler})))
 
        return-cell (j/formula-of [data] (data-points->offset data))]
 

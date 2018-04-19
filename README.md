@@ -85,26 +85,27 @@ This has several benefits:
 
 ### Offset cell
 
-Call `javelin-timesync.core/offset-cell` with a URL to poll and the following
-optional parameters.
+Call `javelin-timesync.core/offset-cell` with a URL to GET as the first argument
+and the following optional parameters:
 
 - `:parse` a function that receives the response and returns a millisecond
   precision timestamp, defaults to `identity`.
+- `:error-handler` a function to override the default error handler, receives
+  the error as an argument.
 - `:interval` milliseconds to wait between polls, defaults to `1000`.
 - `:data-points` number of times to poll, defaults to `5`.
-- `:ajax` additional parameters to pass to https://github.com/JulianBirch/cljs-ajax.
 
 Example: Use [Ably's](https://www.ably.io/) free distributed timestamp servers.
 
 ```clojure
 (javelin-timesync.core/offset-cell
   "https://rest.ably.io/time?v=1.0"
-  :parse (fn [[v]] v)) ; Ably returns an array, so destructure the result
+  :parse first) ; Ably returns an array of the timestamp
 ```
 
-`javelin-timesync.core/offset-cell` is memoized so calling it with the same arguments
-returns the same cell. This avoids unneccessary round trips and reduces the need
-for co-ordination in your application logic.
+`javelin-timesync.core/offset-cell` is memoized so calling it with the same
+arguments returns the same cell. This avoids unneccessary round trips to the
+same URL and reduces the need for co-ordination in your application logic.
 
 If you want the uncached version of `offset-cell` then call `-offset-cell`.
 
@@ -119,6 +120,13 @@ for the current time.
 
 ; later...
 (+ (.getTime (js/Date.)) @(javelin-timesync.core/offset-cell ...)) ; synced timestamp
+```
+
+There is a convenience function `javelin-timesync.core/server-time` that takes
+an offset and returns the time at the server:
+
+```clojure
+(javelin-timesync.core/server-time @(javelin-timesync.core/offset-cell ...))
 ```
 
 Note how the memoize can be used to avoid the need for tracking `defonce` or
@@ -156,6 +164,19 @@ point in the offset calculation.
 
 Heavy load on the browser can also skew the offset if it delays the processing
 of incoming server responses on the main JavaScript thread.
+
+In my own testing, against Ably's time servers and my computer synced with the
+Mac OS X NTP, the offsets look like this:
+
+- Init: 0
+- First poll: +/- 5-120ms, commonly 20-30ms
+- Second poll: +/- 1-20ms
+- Subsequent polls: +/- 1-2ms
+
+This is with a decent, stable internet connection (by Australian standards).
+
+The result of the first poll is essentially what SNTP offers. We can see this
+approach is much better!
 
 ### Difference from the original algorithm
 
