@@ -1,6 +1,8 @@
 (ns javelin-timesync.core
  (:require
   ajax.core
+  taoensso.timbre
+  javelin-timesync.data
   [javelin.core :as j]))
 
 (defn -data-cell->offset-cell
@@ -23,12 +25,12 @@
   (j/formula-of [avg-latency] (javelin-timesync.math/latency->offset avg-latency))))
 
 (defn -offset-cell
- [{:keys [parse delay data-points url fetch error-handler]}]
+ [{:keys [parse interval data-points url fetch error-handler]}]
  {:pre [(or url fetch) (not (and url fetch))]}
  (let [data (j/cell [])
 
        parse (or parse javelin-timesync.core/parse)
-       delay (or delay javelin-timesync.core/delay)
+       interval (or interval javelin-timesync.core/interval)
        data-points (or data-points javelin-timesync.core/data-points)
 
        handler (or handler (fn [r] (swap! data conj (javelin-timesync.core/parse r))))

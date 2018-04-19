@@ -90,7 +90,7 @@ optional parameters.
 
 - `:parse` a function that receives the response and returns a millisecond
   precision timestamp, defaults to `identity`.
-- `:delay` milliseconds to delay between polls, defaults to `1000`.
+- `:interval` milliseconds to wait between polls, defaults to `1000`.
 - `:data-points` number of times to poll, defaults to `5`.
 - `:ajax` additional parameters to pass to https://github.com/JulianBirch/cljs-ajax.
 
@@ -180,7 +180,7 @@ large `:data-points` value will not delay convergence unneccessarily.
 
 ### Error handling
 
-The default error handling is to log a warning to the console, wait `:delay`
+The default error handling is to log a warning to the console, wait `:interval`
 milliseconds and then retry that data point.
 
 This can be overriden as `:error-handler` under `:ajax` as per

@@ -9,6 +9,7 @@
  '[; scaffolding...
    [org.clojure/clojure "1.10.0-alpha4"]
    [org.clojure/clojurescript "1.10.238"]
+   [hoplon/hoplon "7.3.0-SNAPSHOT"]
    [hoplon/javelin "3.9.0"]
    [pandeiro/boot-http "0.8.3"]
    [adzerk/boot-reload "0.5.1"]
@@ -23,6 +24,7 @@
    [doo "0.1.8"]
 
    ; everything else...
+   [thedavidmeister/hoplon-elem-lib "0.2.0"]
    [cljs-ajax "0.7.3"]])
 
 (task-options!
@@ -33,27 +35,27 @@
       :scm {:url github-url}})
 
 (require
-;  '[adzerk.boot-cljs :refer [cljs]]
-;  '[hoplon.boot-hoplon :refer [hoplon prerender]]
-;  '[tailrecursion.boot-jetty :refer [serve]]
+ '[adzerk.boot-cljs :refer [cljs]]
+ '[hoplon.boot-hoplon :refer [hoplon prerender]]
+ '[tailrecursion.boot-jetty :refer [serve]]
 ;  '[thedavidmeister.boot-github-pages :refer [github-pages]]
  '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 ;  '[adzerk.bootlaces :refer :all])
 ;
 ; (bootlaces! version)
 ;
-; (def compiler-options
-;  {})
-;
-; (deftask front-dev
-;  "Build for local development."
-;  []
-;  (comp
-;   (watch)
-;   (speak)
-;   (hoplon)
-;   (cljs :compiler-options compiler-options)
-;   (serve :port 8000)))
+(def compiler-options
+ {})
+
+(deftask front-dev
+ "Build for local development."
+ []
+ (comp
+  (watch)
+  (speak)
+  (hoplon)
+  (cljs :compiler-options compiler-options)
+  (serve :port 8000)))
 ;
 ; (deftask build
 ;  []
