@@ -30,8 +30,26 @@
                 [{:timesync/start 100
                   :timesync/server 1
                   :timesync/end 110}
-                 -104]]]
+                 -104]
+
+                [{:timesync/start 0
+                  :timesync/server 0
+                  :timesync/end 0}
+                 0]
+
+                [{:timesync/start 5
+                  :timesync/server 100
+                  :timesync/end 5}
+                 95]]]
   (is (== o (javelin-timesync.math/data-point->clock-delta i)))))
+
+(deftest ??latency->offset
+ (doseq [[i o] [[0 0]
+                [0.1 0]
+                [0.5 1]
+                [1 1]
+                [1.5 2]]]
+  (is (== o (javelin-timesync.math/latency->offset i)))))
 
 (deftest ??mean
  (doseq [[i o] [[[] 0]
