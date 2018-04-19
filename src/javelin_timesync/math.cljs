@@ -8,7 +8,7 @@
  [xs]
  {:pre [(sequential? xs)]}
  (if (seq xs)
-  (/ (reduce + xs) (count xs))
+  (/ (apply + xs) (count xs))
   ; avoid divide by zero
   0))
 
