@@ -7,7 +7,8 @@
   javelin-timesync.time
   javelin-timesync.spec
   [clojure.spec.alpha :as spec]
-  [javelin.core :as j]))
+  [javelin.core :as j]
+  [hoplon.core :as h]))
 
 (defn -data-cell->offset-cell
  [data]
@@ -28,6 +29,7 @@
                           (Math/abs (- latency median-latency))))
                         latencies))
                       [median-latency])))]
+  (j/cell= (prn avg-latency))
   (j/formula-of [avg-latency] (javelin-timesync.math/latency->offset avg-latency))))
 
 (defn -offset-cell
@@ -51,7 +53,6 @@
        (or
         handler
         (fn [r start end]
-         (prn start r end)
          (swap! data conj {:timesync/start start :timesync/server (parse r) :timesync/end end})))
        error-handler (or error-handler (fn [e] (taoensso.timbre/warn e)))
        fetch
@@ -63,7 +64,12 @@
            url
            {:handler #(handler % start (javelin-timesync.time/now-millis))
             :error-handler error-handler}))))]
-  (fetch handler)
-  (j/cell= (prn data))
+  ; loop until we've hit our data point quota          
+  (let [loop! (fn loop! []
+               (fetch handler)
+               (when (< (count @data) data-points)
+                (h/with-timeout interval (loop!))))]
+   (loop!))
+
   (-data-cell->offset-cell data)))
 (def offset-cell (memoize -offset-cell))

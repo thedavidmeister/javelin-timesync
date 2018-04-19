@@ -20,4 +20,5 @@
    #'javelin-timesync.core/offset-cell
    [["Ably offset cell"
      :url "https://rest.ably.io/time?v=1.0"
-     :parse (fn [[v]] v)]])))
+     :parse (fn [[v]] v)
+     :interval 5000]])))

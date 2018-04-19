@@ -18,8 +18,10 @@
 
 (defn latency->offset
  [x]
- {:pre [(int? x)]}
- x)
+ {:post [(int? %)]}
+ ; there's no point in an offset higher precision than the clock itself, in fact
+ ; that is just asking for bugs, so we round to the nearest int.
+ (Math/round x))
 
 (defn mean
  [xs]
