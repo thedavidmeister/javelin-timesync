@@ -19,6 +19,9 @@
    [adzerk/bootlaces "0.1.13"]
    [com.taoensso/timbre "4.10.0"]
 
+   ; transitive deps...
+   [doo "0.1.8"]
+
    ; everything else...
    [cljs-ajax "0.7.3"]])
 
@@ -29,12 +32,12 @@
       :url github-url
       :scm {:url github-url}})
 
-; (require
+(require
 ;  '[adzerk.boot-cljs :refer [cljs]]
 ;  '[hoplon.boot-hoplon :refer [hoplon prerender]]
 ;  '[tailrecursion.boot-jetty :refer [serve]]
 ;  '[thedavidmeister.boot-github-pages :refer [github-pages]]
-;  '[crisptrutski.boot-cljs-test :refer [test-cljs]]
+ '[crisptrutski.boot-cljs-test :refer [test-cljs]])
 ;  '[adzerk.bootlaces :refer :all])
 ;
 ; (bootlaces! version)

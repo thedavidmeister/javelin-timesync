@@ -23,25 +23,24 @@
   (j/formula-of [avg-latency] (javelin-timesync.math/latency->offset avg-latency))))
 
 (defn -offset-cell
- ([url] (-offset-cell url {}))
- ([{:keys [parse delay data-points url fetch error-handler]}]
-  {:pre [(or url fetch) (not (and url fetch))]}
-  (let [data (j/cell [])
+ [{:keys [parse delay data-points url fetch error-handler]}]
+ {:pre [(or url fetch) (not (and url fetch))]}
+ (let [data (j/cell [])
 
-        parse (or parse javelin-timesync.core/parse)
-        delay (or delay javelin-timesync.core/delay)
-        data-points (or data-points javelin-timesync.core/data-points)
+       parse (or parse javelin-timesync.core/parse)
+       delay (or delay javelin-timesync.core/delay)
+       data-points (or data-points javelin-timesync.core/data-points)
 
-        handler (or handler (fn [r] (swap! data conj (javelin-timesync.core/parse r))))
-        error-handler (or error-handler (fn [e] (taoensso.timbre/warn e)))
-        fetch
-        (if fetch
-         (fn []
-          (fetch handler))
-         (fn []
-          (ajax.core/GET
-           url
-           {:handler handler
-            :error-handler error-handler})))]
-   (-data-cell->offset-cell data))))
+       handler (or handler (fn [r] (swap! data conj (javelin-timesync.core/parse r))))
+       error-handler (or error-handler (fn [e] (taoensso.timbre/warn e)))
+       fetch
+       (if fetch
+        (fn []
+         (fetch handler))
+        (fn []
+         (ajax.core/GET
+          url
+          {:handler handler
+           :error-handler error-handler})))]
+  (-data-cell->offset-cell data)))
 (def offset-cell (memoize -offset-cell))
