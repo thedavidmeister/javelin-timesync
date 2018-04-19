@@ -14,6 +14,21 @@
                 [[-1 1] 0]]]
   (is (= o (javelin-timesync.math/mean i)))))
 
+(deftest ??median
+ (doseq [[i o] [[[] 0]
+                [[0] 0]
+                [[0] 0]
+                [[0 1] 0.5]
+                [[-1 1] 0]
+                [[-1 0 1] 0]
+                [[0 1 2] 1]
+                [[1 2 3 4] 2.5]
+                [[1 2 3 4 5] 3]
+                [[1 2 3 4 5 6] 3.5]
+                [[2 4 6 8 10] 6]
+                [[2 4 6 8 10 12] 7]]]
+  (is (= o (javelin-timesync.math/median (shuffle i))))))
+
 (deftest ??round-trip
  (let [t0 (rand-int 10000)
        i0 (rand-int 10000)
