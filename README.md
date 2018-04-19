@@ -190,5 +190,6 @@ https://github.com/JulianBirch/cljs-ajax#getpostput
 
 No problem.
 
-Javelin cells work exactly like native clojure `atom`. Just deref the offset
-like you would normally access an atom.
+Javelin cells work exactly like native clojure `atom`.
+
+You can `deref` and `add-watch` on a javelin cell.
