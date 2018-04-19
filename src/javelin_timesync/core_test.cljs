@@ -39,3 +39,21 @@
                    :timesync/latency 0
                    :timesync/clock-delta 95}]]]]
   (is (= o (javelin-timesync.core/data-points->processed-points i)))))
+
+(deftest ??processed-points->median-data-point
+ (let [data-point (fn [l] {:timesync/start (rand-int 100)
+                           :timesync/server (rand-int 100)
+                           :timesync/end (rand-int 100)
+                           :timesync/clock-delta (rand-int 100)
+                           :timesync/latency 1})
+       [latency-1 latency-2 latency-3] (map data-point [1 2 3])]
+
+  (doseq [[i o] [[[latency-1]
+                  latency-1]
+                 ; we pull out the lower latency value when ambiguous
+                 [[latency-2 latency-1]
+                  latency-1]
+                 [[latency-1 latency-2 latency-3]
+                  latency-2]]]
+
+   (is (= o (javelin-timesync.core/processed-points->median-data-point i))))))
