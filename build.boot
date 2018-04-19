@@ -1,7 +1,7 @@
-(def project 'thedavidmeister/cljs-ntp)
-(def version "0.0.1")
-(def description "Simple NTP for ClojureScript")
-(def github-url "https://github.com/thedavidmeister/cljs-ntp")
+(def project 'thedavidmeister/javelin-timesync)
+(def version "0.0.2")
+(def description "Simple timesync algorithm for ClojureScript that is superior to SNTP over TCP")
+(def github-url "https://github.com/thedavidmeister/javelin-timesync")
 
 (set-env!
  :source-paths #{"src"}
