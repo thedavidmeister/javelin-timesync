@@ -67,17 +67,3 @@
         variance (mean squared)]
    (Math/sqrt variance))
   0))
-
-(defn round-trip
- [t0 t1 t2 t3]
- (-
-  (- t3 t0)
-  (- t2 t1)))
-
-(defn offset
- [t0 t1 t2 t3]
- (/
-  (+
-   (- t1 t0)
-   (- t2 t3))
-  2))

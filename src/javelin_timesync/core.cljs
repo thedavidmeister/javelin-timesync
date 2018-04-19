@@ -112,9 +112,5 @@
                (when (< (count @data) data-points)
                 (h/with-timeout interval (loop!))))]
    (loop!))
-  (j/cell=
-   (prn "data points:" (data-points->processed-points data)))
-  (j/cell=
-   (prn "calculated offset:" return-cell))
   return-cell))
 (def offset-cell (memoize -offset-cell))

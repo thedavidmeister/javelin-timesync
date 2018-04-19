@@ -59,10 +59,6 @@
                   {:x 3}
                   {:x 4}]
                  {:x 3}]]]
-                ; [[1 2 3 4 5] 3]
-                ; [[1 2 3 4 5 6] 4]
-                ; [[2 4 6 8 10] 6]
-                ; [[2 4 6 8 10 12] 8]]]
   (is
    (== o (javelin-timesync.math/median-by :x (shuffle i)))
    (str "i: " i " o: " o))))
@@ -77,27 +73,3 @@
                 [[100 500 -1000 4] (Math/sqrt 305203)]
                 [[0.1 0.5 0 2] 0.8015609770940699]]]
   (is (== o (javelin-timesync.math/std-dev (shuffle i))))))
-
-(deftest ??round-trip
- (let [t0 (rand-int 10000)
-       i0 (rand-int 10000)
-       t1 (+ t0 i0)
-       i1 (rand-int 10000)
-       t2 (+ t1 i1)
-       i2 (rand-int 10000)
-       t3 (+ t2 i2)]
-  (is
-   (==
-    (+ i0 i2)
-    (javelin-timesync.math/round-trip t0 t1 t2 t3)))))
-
-(deftest ??offset
- (let [t0 (rand-int 10000)
-       i0 (rand-int 10000)
-       t1 (+ t0 i0)
-       i1 (rand-int 10000)
-       t2 (+ t1 i1)
-       i2 (rand-int 10000)
-       t3 (+ t2 i2)]
-  (is (== (/ (- i0 i2) 2)
-       (javelin-timesync.math/offset t0 t1 t2 t3)))))
