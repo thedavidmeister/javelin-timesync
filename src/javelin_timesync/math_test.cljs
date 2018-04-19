@@ -54,10 +54,10 @@
                 [[1] 0]
                 [[1 1] 0]
                 ; cross referenced with wolfram
-                [[1 2 -2 4 -3] (/ (Math/sqrt 166) 5)]
+                [[1 2 -2 4 -3] 2.5768197453450252]
                 [[100 500 -1000 4] (Math/sqrt 305203)]
                 [[0.1 0.5 0 2] 0.8015609770940699]]]
-  (is (= o (javelin-timesync.math/std-dev (shuffle i))))))
+  (is (== o (javelin-timesync.math/std-dev (shuffle i))))))
 
 (deftest ??round-trip
  (let [t0 (rand-int 10000)
