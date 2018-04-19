@@ -32,20 +32,40 @@
                 [[-1 1] 0]]]
   (is (== o (javelin-timesync.math/mean i)))))
 
-(deftest ??median
- (doseq [[i o] [[[] 0]
-                [[0] 0]
-                [[0] 0]
-                [[0 1] 0.5]
-                [[-1 1] 0]
-                [[-1 0 1] 0]
-                [[0 1 2] 1]
-                [[1 2 3 4] 2.5]
-                [[1 2 3 4 5] 3]
-                [[1 2 3 4 5 6] 3.5]
-                [[2 4 6 8 10] 6]
-                [[2 4 6 8 10 12] 7]]]
-  (is (== o (javelin-timesync.math/median (shuffle i))))))
+(deftest ??median-by
+ (doseq [[i o] [[[]
+                 nil]
+                [[{:x 0}]
+                 {:x 0}]
+                [[{:x 0
+                   :y 1}]
+                 {:x 0 :y 1}]
+                [[{:x 0}
+                  {:x 1}]
+                 {:x 1}]
+                [[{:x -1}
+                  {:x 1}]
+                 {:x 1}]
+                [[{:x -1}
+                  {:x 0}
+                  {:x 1}]
+                 {:x 0}]
+                [[{:x 0}
+                  {:x 1 :z 3}
+                  {:x 2 :z 1}]
+                 {:x 1 :z 3}]
+                [[{:x 1}
+                  {:x 2}
+                  {:x 3}
+                  {:x 4}]
+                 {:x 3}]]]
+                ; [[1 2 3 4 5] 3]
+                ; [[1 2 3 4 5 6] 4]
+                ; [[2 4 6 8 10] 6]
+                ; [[2 4 6 8 10 12] 8]]]
+  (is
+   (== o (javelin-timesync.math/median-by :x (shuffle i)))
+   (str "i: " i " o: " o))))
 
 (deftest ??std-dev
  (doseq [[i o] [[[] 0]
@@ -54,7 +74,6 @@
                 [[1] 0]
                 [[1 1] 0]
                 ; cross referenced with wolfram
-                [[1 2 -2 4 -3] 2.5768197453450252]
                 [[100 500 -1000 4] (Math/sqrt 305203)]
                 [[0.1 0.5 0 2] 0.8015609770940699]]]
   (is (== o (javelin-timesync.math/std-dev (shuffle i))))))

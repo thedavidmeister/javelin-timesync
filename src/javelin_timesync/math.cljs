@@ -35,18 +35,16 @@
 ; lowest-latency to highest-latency order. The median latency is determined by
 ; picking the mid-point sample from this ordered list.
 ; https://rosettacode.org/wiki/Category:Clojure
-(defn median
- [xs]
+(defn median-by
+ [keyfn xs]
  {:pre [(sequential? xs)]}
- (if (seq xs)
+ (when (seq xs)
   (let [cnt (count xs)
         pos (bit-shift-right cnt 1)
-        sorted (sort xs)
-        lookup (partial nth sorted)]
-   (if (odd? cnt)
-    (lookup pos)
-    (mean (map lookup [pos (dec pos)]))))
-  0))
+        sorted (sort-by keyfn xs)]
+   ; normally we'd handle odd/even medians differently but the algorithm breaks
+   ; without a specific data point to reference
+   (nth sorted pos))))
 
 (defn std-dev
  [xs]
