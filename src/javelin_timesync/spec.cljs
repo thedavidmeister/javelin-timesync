@@ -16,3 +16,17 @@
  (spec/coll-of
   :timesync/data-point
   :kind vector?))
+
+(spec/def :timesync/latency number?)
+(spec/def :timesync/clock-delta number?)
+
+(spec/def :timesync/data-point--processed
+ (spec/merge
+  :timesync/data-point
+  (spec/keys
+   :req [:timesync/latency
+         :timesync/clock-delta])))
+(spec/def :timesync/data-points--processed
+ (spec/coll-of
+  :timesync/data-point--processed
+  :kind vector?))

@@ -16,6 +16,17 @@
    (:timesync/start data-point)
    (:timesync/end data-point))))
 
+(defn data-point->clock-delta
+ [data-point]
+ {:pre [(spec/valid? :timesync/data-point data-point)]}
+ ; It subtracts current time from server time to determine client-server time
+ ; delta and adds in the half-latency to get the correct clock delta.)
+ (let [client-server-delta
+       (-
+        (:timesync/server data-point)
+        (:timesync/end data-point))]
+  (+ client-server-delta (data-point->latency data-point))))
+
 (defn latency->offset
  [x]
  {:post [(int? %)]}
