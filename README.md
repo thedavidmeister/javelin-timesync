@@ -169,7 +169,7 @@ In my own testing, against Ably's time servers and my computer synced with the
 Mac OS X NTP, the offsets look like this:
 
 - Init: 0
-- First poll: +/- 5-120ms, commonly 20-30ms
+- First poll: +/- 5-200ms, commonly 20-30ms
 - Second poll: +/- 1-20ms
 - Subsequent polls: +/- 1-2ms
 
