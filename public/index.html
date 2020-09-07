@@ -2,5 +2,11 @@
 <html>
  <head>
    <script src="/public/js/index/main.js"></script>
+   <script>
+    cb = function() { console.log(arguments) }
+    parser = function(v) { return v[0] }
+
+    cell = javelin_timesync.core.offset_cb(cb, "https://rest.ably.io/time?v=1.0", {'parse': parser, 'interval': 2000, 'data-points': 10})
+   </script>
  </head>
 </html>

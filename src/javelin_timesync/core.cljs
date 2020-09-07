@@ -76,11 +76,12 @@
  [url & {:keys [parse
                 error-handler
                 interval
-                data-points]}]
+                data-points
+                js?]}]
  {:pre [(string? url)]}
  (let [data (j/cell [])
-
        parse (or parse javelin-timesync.data/parse)
+       parse (if js? (comp parse clj->js) parse)
        interval (or interval javelin-timesync.data/interval)
        data-points (or data-points javelin-timesync.data/data-points)
 
@@ -114,3 +115,15 @@
 (defn server-time
  [offset]
  (+ (javelin-timesync.time/now-millis) offset))
+
+(defn ^:export offset-cb
+ [f url args]
+ (let [args (js->clj args :keywordize-keys true)
+       cell (offset-cell
+             url
+             :parse (:parse args)
+             :error-handler (:error-handler args)
+             :interval (:interval args)
+             :data-points (:data-points args)
+             :js? true)]
+  (add-watch cell f f)))
