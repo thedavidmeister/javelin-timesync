@@ -1,0 +1,21 @@
+;; shadow-cljs configuration
+{
+ :deps true
+ :builds
+ {
+  :index
+  {:target :browser
+   :output-dir "public/js/index"
+   :asset-path "/public/js/index"
+   :modules
+   {:main
+    {:entries [javelin-timesync.index.mount]}}}
+  :npm
+  {:target :browser
+   :output-dir "dist"
+   :modules
+   {:main
+    {:entries [javelin-timesync.core]}}}}}
+   ; :exports-var javelin-timesync.core/offset-cb}}}
+   ; :exports
+   ; {:offset-cb javelin-timesync.core/offset-cb}}}}

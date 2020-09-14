@@ -1,6 +1,5 @@
 (ns javelin-timesync.core
  (:require
-  ajax.core
   taoensso.timbre
   javelin-timesync.data
   javelin-timesync.math
@@ -76,11 +75,12 @@
  [url & {:keys [parse
                 error-handler
                 interval
-                data-points]}]
+                data-points
+                js?]}]
  {:pre [(string? url)]}
  (let [data (j/cell [])
-
        parse (or parse javelin-timesync.data/parse)
+       parse (if js? parse (comp parse js->clj))
        interval (or interval javelin-timesync.data/interval)
        data-points (or data-points javelin-timesync.data/data-points)
 
@@ -92,19 +92,17 @@
           :timesync/end end}))
 
        error-handler (or error-handler (fn [e] (taoensso.timbre/warn e)))
-       fetch
+       do-fetch
        (fn [handler]
         (let [start (javelin-timesync.time/now-millis)]
-         (ajax.core/GET
-          url
-          {:handler #(handler % start (javelin-timesync.time/now-millis))
-           :error-handler error-handler})))
+         (.then (.then (js/fetch url) #(.json %))
+          #(handler % start (javelin-timesync.time/now-millis)))))
 
        return-cell (j/formula-of [data] (data-points->offset data))]
 
   ; loop until we've hit our data point quota
   (let [loop! (fn loop! []
-               (fetch handler)
+               (do-fetch handler)
                (when (< (count @data) data-points)
                 (h/with-timeout interval (loop!))))]
    (loop!))
@@ -114,3 +112,23 @@
 (defn server-time
  [offset]
  (+ (javelin-timesync.time/now-millis) offset))
+
+; the javascript exposed vanilla js export
+(defn ^:export offset-cb
+ [f url args]
+ (let [args (js->clj args :keywordize-keys true)
+       cell (offset-cell
+             url
+             :parse (:parse args)
+             :error-handler (:error-handler args)
+             :interval (:interval args)
+             :data-points (:data-points args)
+             :js? true)]
+  (add-watch
+   cell f
+   (fn [key ref old-value new-value]
+    (f
+     (clj->js key)
+     (clj->js ref)
+     (clj->js old-value)
+     (clj->js new-value))))))
