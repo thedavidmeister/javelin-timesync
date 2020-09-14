@@ -24,7 +24,7 @@ core-shell = stdenv.mkDerivation (nix-shell.shell // {
  buildInputs = []
   ++ [
    (pkgs.writeShellScriptBin "svelte-example" ''
-    ( cd examples/svelte && npm install && npm run dev )
+    ( cd examples/svelte && rm package-lock.json && rm -rf node_modules && npm install && npm run dev )
    '')
   ]
   ++ [
