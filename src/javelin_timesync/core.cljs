@@ -2,7 +2,7 @@
  (:require
   ajax.core
   ; https://github.com/r0man/cljs-http/issues/94
-  ; [xmlhttprequest :refer [XMLHttpRequest]]
+  [xmlhttprequest :refer [XMLHttpRequest]]
   ; [url :refer [url]]
   taoensso.timbre
   javelin-timesync.data
@@ -12,7 +12,7 @@
   [clojure.spec.alpha :as spec]
   [javelin.core :as j]
   [hoplon.core :as h]))
-; (set! js/XMLHttpRequest XMLHttpRequest)
+(set! js/XMLHttpRequest XMLHttpRequest)
 
 (defn data-points->processed-points
  [data-points]
@@ -77,12 +77,12 @@
   javelin-timesync.math/latency->offset))
 
 (defn -offset-cell
- [zurl & {:keys [parse
-                 error-handler
-                 interval
-                 data-points
-                 js?]}]
- {:pre [(string? zurl)]}
+ [url & {:keys [parse
+                error-handler
+                interval
+                data-points
+                js?]}]
+ {:pre [(string? url)]}
  (let [data (j/cell [])
        parse (or parse javelin-timesync.data/parse)
        parse (if js? (comp parse clj->js) parse)
@@ -101,7 +101,7 @@
        (fn [handler]
         (let [start (javelin-timesync.time/now-millis)]
          (ajax.core/GET
-          zurl
+          url
           {:handler #(handler % start (javelin-timesync.time/now-millis))
            :error-handler error-handler})))
 
@@ -121,10 +121,10 @@
  (+ (javelin-timesync.time/now-millis) offset))
 
 (defn ^:export offset-cb
- [f gurl args]
+ [f url args]
  (let [args (js->clj args :keywordize-keys true)
        cell (offset-cell
-             gurl
+             url
              :parse (:parse args)
              :error-handler (:error-handler args)
              :interval (:interval args)

@@ -1,10 +1,19 @@
 <script>
+export let offset;
+
+import 'javelin-timesync';
+
+cell = javelin_timesync.core.offset_cb(
+ () => { console.log(arguments) },
+	"https://rest.ably.io/time?v=1.0",
+	{'parse': (v) => { return v[0] }, 'interval': 2000, 'data-points': 10}
+)
 
 </script>
 
 <main>
 	<h1>Hello</h1>
-	<p>Open the console to see the offset_cb.</p>
+	<p>Open the console to see the offset_cb {offset}.</p>
 </main>
 
 <style>
