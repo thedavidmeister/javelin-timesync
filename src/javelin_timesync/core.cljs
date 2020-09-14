@@ -76,12 +76,12 @@
   javelin-timesync.math/latency->offset))
 
 (defn -offset-cell
- [zurl & {:keys [parse]
-                error-handler
-                interval
-                data-points
-                js?}]
- {:pre [(string? url)]}
+ [zurl & {:keys [parse
+                 error-handler
+                 interval
+                 data-points
+                 js?]}]
+ {:pre [(string? zurl)]}
  (let [data (j/cell [])
        parse (or parse javelin-timesync.data/parse)
        parse (if js? (comp parse clj->js) parse)
