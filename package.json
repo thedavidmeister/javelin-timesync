@@ -1,6 +1,6 @@
 {
   "name": "javelin-timesync",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Javelin timesync.",
   "main": "dist/main.js",
   "scripts": {
