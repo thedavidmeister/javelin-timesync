@@ -1,5 +1,6 @@
 <script>
-	import { offset_cb } from 'javelin-timesync';
+	import 'javelin-timesync';
+	// console.log(javelin-timesync)
 </script>
 
 <main>

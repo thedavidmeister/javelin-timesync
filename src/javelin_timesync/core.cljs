@@ -119,7 +119,7 @@
  [offset]
  (+ (javelin-timesync.time/now-millis) offset))
 
-(defn ^:export offset-cb
+(defn offset-cb
  [f url args]
  (let [args (js->clj args :keywordize-keys true)
        cell (offset-cell
