@@ -1,6 +1,8 @@
 (ns javelin-timesync.core
  (:require
   ajax.core
+  ; https://github.com/r0man/cljs-http/issues/94
+  [xmlhttprequest :refer [XMLHttpRequest]]
   taoensso.timbre
   javelin-timesync.data
   javelin-timesync.math
@@ -9,6 +11,7 @@
   [clojure.spec.alpha :as spec]
   [javelin.core :as j]
   [hoplon.core :as h]))
+(set! js/XMLHttpRequest XMLHttpRequest)
 
 (defn data-points->processed-points
  [data-points]

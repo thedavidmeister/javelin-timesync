@@ -16,7 +16,9 @@
     "url": "https://github.com/thedavidmeister/javelin-timesync/issues"
   },
   "homepage": "https://github.com/thedavidmeister/javelin-timesync#readme",
-  "dependencies": {},
+  "dependencies": {
+    "xmlhttprequest": "^1.8.0"
+  },
   "devDependencies": {
     "highlight.js": "^9.15.8",
     "jquery": "^3.4.1",
