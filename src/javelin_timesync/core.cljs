@@ -3,6 +3,7 @@
   ajax.core
   ; https://github.com/r0man/cljs-http/issues/94
   [xmlhttprequest :refer [XMLHttpRequest]]
+  [url :refer [url]]
   taoensso.timbre
   javelin-timesync.data
   javelin-timesync.math
