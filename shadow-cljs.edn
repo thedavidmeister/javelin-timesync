@@ -9,4 +9,9 @@
    :asset-path "/public/js/index"
    :modules
    {:main
-    {:entries [javelin-timesync.index.mount]}}}}}
+    {:entries [javelin-timesync.index.mount]}}}
+  :npm
+  {:target :node-library
+   :output-to "dist/main.js"
+   :exports
+   {:offset-cb javelin-timesync.core/offset-cb}}}}

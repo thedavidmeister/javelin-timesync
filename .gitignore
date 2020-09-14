@@ -3,3 +3,4 @@ node_modules/
 public/js
 .cpcache
 .shadow-cljs
+dist

@@ -22,6 +22,14 @@ core-shell = stdenv.mkDerivation (nix-shell.shell // {
  ];
 
  buildInputs = []
+  ++ [
+   (pkgs.writeShellScriptBin "deploy-to-npm" ''
+    rm -rf dist
+    mkdir -p dist
+    shadow-cljs release npm
+    npm publish
+   '')
+  ]
   ++ nix-shell.shell.buildInputs
  ;
 });

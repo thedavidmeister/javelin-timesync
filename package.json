@@ -1,8 +1,8 @@
 {
   "name": "javelin-timesync",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Javelin timesync.",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,12 +16,12 @@
     "url": "https://github.com/thedavidmeister/javelin-timesync/issues"
   },
   "homepage": "https://github.com/thedavidmeister/javelin-timesync#readme",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "highlight.js": "^9.15.8",
     "jquery": "^3.4.1",
     "local-web-server": "^3.0.7",
     "shadow-cljs": "^2.8.40"
   },
-  "devDependencies": {},
   "keywords": []
 }
