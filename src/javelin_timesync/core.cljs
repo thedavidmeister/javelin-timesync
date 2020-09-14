@@ -119,14 +119,14 @@
  [offset]
  (+ (javelin-timesync.time/now-millis) offset))
 
-(defn offset-cb
- [f url args]
- (let [args (js->clj args :keywordize-keys true)
-       cell (offset-cell
-             url
-             :parse (:parse args)
-             :error-handler (:error-handler args)
-             :interval (:interval args)
-             :data-points (:data-points args)
-             :js? true)]
-  (add-watch cell f f)))
+(defn offset-cb [])
+ ; [f url args]
+ ; (let [args (js->clj args :keywordize-keys true)
+ ;       cell (offset-cell
+ ;             url
+ ;             :parse (:parse args)
+ ;             :error-handler (:error-handler args)
+ ;             :interval (:interval args)
+ ;             :data-points (:data-points args)
+ ;             :js? true)]
+ ;  (add-watch cell f f)))
