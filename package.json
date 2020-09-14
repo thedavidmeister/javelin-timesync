@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/thedavidmeister/javelin-timesync#readme",
   "dependencies": {
-    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "highlight.js": "^9.15.8",

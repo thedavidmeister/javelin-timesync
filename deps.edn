@@ -16,7 +16,4 @@
 
   thedavidmeister/hoplon-elem-lib
   {:git/url "https://github.com/thedavidmeister/hoplon-elem-lib"
-   :sha "a9de2b89d1cedc8a2acaffd3c1aa1a1549a50bf9"}
-
-  cljs-ajax
-  {:mvn/version "0.8.1"}}}
+   :sha "a9de2b89d1cedc8a2acaffd3c1aa1a1549a50bf9"}}}

@@ -1,9 +1,5 @@
 (ns javelin-timesync.core
  (:require
-  ajax.core
-  ; https://github.com/r0man/cljs-http/issues/94
-  ; [xmlhttprequest :refer [XMLHttpRequest]]
-  ; [url :refer [url]]
   taoensso.timbre
   javelin-timesync.data
   javelin-timesync.math
@@ -12,7 +8,6 @@
   [clojure.spec.alpha :as spec]
   [javelin.core :as j]
   [hoplon.core :as h]))
-; (set! js/XMLHttpRequest XMLHttpRequest)
 
 (defn data-points->processed-points
  [data-points]
@@ -85,7 +80,7 @@
  {:pre [(string? url)]}
  (let [data (j/cell [])
        parse (or parse javelin-timesync.data/parse)
-       parse (if js? (comp parse clj->js) parse)
+       parse (if js? parse (comp parse js->clj))
        interval (or interval javelin-timesync.data/interval)
        data-points (or data-points javelin-timesync.data/data-points)
 
@@ -97,19 +92,17 @@
           :timesync/end end}))
 
        error-handler (or error-handler (fn [e] (taoensso.timbre/warn e)))
-       fetch
+       do-fetch
        (fn [handler]
         (let [start (javelin-timesync.time/now-millis)]
-         (ajax.core/GET
-          url
-          {:handler #(handler % start (javelin-timesync.time/now-millis))
-           :error-handler error-handler})))
+         (.then (.then (js/fetch url) #(.json %))
+          #(handler % start (javelin-timesync.time/now-millis)))))
 
        return-cell (j/formula-of [data] (data-points->offset data))]
 
   ; loop until we've hit our data point quota
   (let [loop! (fn loop! []
-               (fetch handler)
+               (do-fetch handler)
                (when (< (count @data) data-points)
                 (h/with-timeout interval (loop!))))]
    (loop!))
