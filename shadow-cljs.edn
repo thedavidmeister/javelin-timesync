@@ -11,8 +11,11 @@
    {:main
     {:entries [javelin-timesync.index.mount]}}}
   :npm
-  {:target :node-library
-   :output-to "dist/main.js"
-   :exports-var javelin-timesync.core/offset-cb}}}
+  {:target :browser
+   :output-dir "dist"
+   :modules
+   {:main
+    {:entries [javelin-timesync.core/offset-cb]}}}}}
+   ; :exports-var javelin-timesync.core/offset-cb}}}
    ; :exports
    ; {:offset-cb javelin-timesync.core/offset-cb}}}}
