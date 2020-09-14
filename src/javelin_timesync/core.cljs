@@ -76,11 +76,11 @@
   javelin-timesync.math/latency->offset))
 
 (defn -offset-cell
- [url & {:keys [parse
+ [zurl & {:keys [parse]
                 error-handler
                 interval
                 data-points
-                js?]}]
+                js?}]
  {:pre [(string? url)]}
  (let [data (j/cell [])
        parse (or parse javelin-timesync.data/parse)
@@ -100,7 +100,7 @@
        (fn [handler]
         (let [start (javelin-timesync.time/now-millis)]
          (ajax.core/GET
-          url
+          zurl
           {:handler #(handler % start (javelin-timesync.time/now-millis))
            :error-handler error-handler})))
 
@@ -120,10 +120,10 @@
  (+ (javelin-timesync.time/now-millis) offset))
 
 (defn ^:export offset-cb
- [f url args]
+ [f gurl args]
  (let [args (js->clj args :keywordize-keys true)
        cell (offset-cell
-             url
+             gurl
              :parse (:parse args)
              :error-handler (:error-handler args)
              :interval (:interval args)
