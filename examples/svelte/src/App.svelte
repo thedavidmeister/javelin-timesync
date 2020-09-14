@@ -4,7 +4,10 @@ export let offset;
 import 'javelin-timesync';
 
 javelin_timesync.core.offset_cb(
- (context, key, ref, old, new) => { console.log(context, key, ref, old, new) },
+ (context, key, ref, o, n) => {
+  console.log('old', o)
+  console.log('new', n)
+ },
 	"https://rest.ably.io/time?v=1.0",
 	{'parse': (v) => { return v[0] }, 'interval': 2000, 'data-points': 10}
 )
@@ -13,7 +16,7 @@ javelin_timesync.core.offset_cb(
 
 <main>
 	<h1>Hello</h1>
-	<p>Open the console to see the offset_cb {offset}.</p>
+	<p>Open the console to see the offset_cb.</p>
 </main>
 
 <style>

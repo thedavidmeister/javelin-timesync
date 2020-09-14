@@ -126,9 +126,8 @@
              :js? true)]
   (add-watch
    cell f
-   (fn [context key ref old-value new-value]
+   (fn [key ref old-value new-value]
     (f
-     (clj->js context)
      (clj->js key)
      (clj->js ref)
      (clj->js old-value)
