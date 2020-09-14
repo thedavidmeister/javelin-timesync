@@ -1,6 +1,6 @@
 {
   "name": "javelin-timesync",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "Javelin timesync.",
   "main": "dist/main.js",
   "scripts": {
@@ -16,8 +16,7 @@
     "url": "https://github.com/thedavidmeister/javelin-timesync/issues"
   },
   "homepage": "https://github.com/thedavidmeister/javelin-timesync#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "highlight.js": "^9.15.8",
     "jquery": "^3.4.1",
