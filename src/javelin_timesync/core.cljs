@@ -113,6 +113,7 @@
  [offset]
  (+ (javelin-timesync.time/now-millis) offset))
 
+; the javascript exposed vanilla js export
 (defn ^:export offset-cb
  [f url args]
  (let [args (js->clj args :keywordize-keys true)
@@ -123,4 +124,12 @@
              :interval (:interval args)
              :data-points (:data-points args)
              :js? true)]
-  (add-watch cell f f)))
+  (add-watch
+   cell f
+   (fn [context key ref old-value new-value]
+    (f
+     (clj->js context)
+     (clj->js key)
+     (clj->js ref)
+     (clj->js old-value)
+     (clj->js new-value))))))
