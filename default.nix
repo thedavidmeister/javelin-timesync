@@ -23,6 +23,11 @@ core-shell = stdenv.mkDerivation (nix-shell.shell // {
 
  buildInputs = []
   ++ [
+   (pkgs.writeShellScriptBin "svelte-example" ''
+    ( cd examples/svelte && npm install && npm run dev )
+   '')
+  ]
+  ++ [
    (pkgs.writeShellScriptBin "deploy-to-npm" ''
     set -e
     npm version minor
