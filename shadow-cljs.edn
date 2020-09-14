@@ -15,7 +15,7 @@
    :output-dir "dist"
    :modules
    {:main
-    {:entries [javelin-timesync.core.offset-cb]}}}}}
+    {:entries [javelin-timesync.core]}}}}}
    ; :exports-var javelin-timesync.core/offset-cb}}}
    ; :exports
    ; {:offset-cb javelin-timesync.core/offset-cb}}}}
