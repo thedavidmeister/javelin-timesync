@@ -1,7 +1,5 @@
 <script>
-	import 'url';
-	import 'javelin-timesync';
-	console.log(jts)
+
 </script>
 
 <main>
