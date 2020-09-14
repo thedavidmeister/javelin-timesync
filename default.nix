@@ -24,6 +24,8 @@ core-shell = stdenv.mkDerivation (nix-shell.shell // {
  buildInputs = []
   ++ [
    (pkgs.writeShellScriptBin "deploy-to-npm" ''
+    set -e
+    npm version minor
     rm -rf dist
     mkdir -p dist
     shadow-cljs release npm
