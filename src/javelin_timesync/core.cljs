@@ -12,7 +12,7 @@
   [clojure.spec.alpha :as spec]
   [javelin.core :as j]
   [hoplon.core :as h]))
-(set! js/XMLHttpRequest XMLHttpRequest)
+; (set! js/XMLHttpRequest XMLHttpRequest)
 
 (defn data-points->processed-points
  [data-points]
